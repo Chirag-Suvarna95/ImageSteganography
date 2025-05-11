@@ -1,60 +1,66 @@
 # Image Steganography Project
 
-This project demonstrates basic image steganography techniques, where messages can be hidden within images and later extracted. It uses JavaScript and HTML5 canvas for hiding and extracting messages from images.
+This project demonstrates advanced image steganography techniques, allowing users to hide encrypted messages within images and extract them securely. It leverages JavaScript, HTML5 Canvas, and the `crypto-js` library for AES encryption to ensure message confidentiality.
 
 ## Features
 
-- **Hide Message:** Allows you to upload an image and hide a message within it.
-- **Extract Message:** Allows you to extract hidden messages from an image.
-- **Display:** Shows both the original and modified images.
+- **Hide Encrypted Message**: Upload an image, enter a message, and provide an encryption key to securely hide the message within the image.
+- **Extract Encrypted Message**: Extract and decrypt hidden messages from an image using the correct encryption key.
+- **Display**: Shows the original and modified images side by side for comparison.
+- **Encryption**: Uses AES encryption to secure messages before hiding, adding an extra layer of protection.
 
-## Installation
-
-1. **Clone the repository:**
-    ```bash
-    git clone https://github.com/yourusername/image-steganography.git
-    ```
-
-2. **Navigate to the project directory:**
-    ```bash
-    cd image-steganography
-    ```
-
-3. **Open `index.html` in your web browser.**
+  - Open `index.html` in a web browser to run the application.
 
 ## Usage
 
-1. **Upload an Image:**
-   - Click on the "Click to upload image" button to select an image file from your device.
+1. **Upload an Image**:
 
-2. **Hide a Message:**
-   - Enter the message you want to hide in the "Enter message to hide" text area.
-   - Click the "Hide Message" button to hide the message in the image.
+   - Click the "Click to upload image" button to select an image file from your device.
 
-3. **Extract a Message:**
-   - Click the "Extract Message" button to extract any hidden messages from the image.
+2. **Hide an Encrypted Message**:
+
+   - Enter the message to hide in the "Enter message to hide" textarea.
+   - Provide an encryption key in the "Enter encryption key" password field (below the "Enter Encryption Key" heading).
+   - Click the "Hide Message" button to encrypt the message with AES and embed it in the image.
+   - The modified image will appear in the "Result" canvas.
+
+3. **Extract an Encrypted Message**:
+
+   - Upload the modified image containing the hidden message.
+   - Enter the same encryption key used to hide the message.
+   - Click the "Extract Message" button to extract and decrypt the message.
+   - The decrypted message will be displayed below, or an error message will appear if the key is incorrect.
 
 ## Code Explanation
 
 ### HTML (`index.html`)
 
-- **File Upload:** Allows users to select an image file.
-- **Text Area:** For entering the message to hide.
-- **Buttons:** For hiding and extracting messages.
-- **Canvas Elements:** For displaying the original and processed images.
+- **File Upload**: A custom-styled input for selecting an image file.
+- **Textarea**: For entering the message to be hidden.
+- **Password Input**: For entering the AES encryption key, clearly labeled with an "Enter Encryption Key" heading.
+- **Buttons**: For triggering the hide and extract message functionalities.
+- **Canvas Elements**: Two canvases to display the original and modified images.
+- **External Library**: Includes `crypto-js` via CDN for AES encryption.
 
 ### JavaScript (`script.js`)
 
-- **`hideMessageInImage(imageData, message)`:** Function to hide a message in the image data.
-- **`extractMessageFromImage(imageData)`:** Function to extract a hidden message from the image data.
-- **`handleFileSelect(event)`:** Handles image file selection and displays the image on canvas.
-- **`hideMessage()`:** Hides the user-provided message in the uploaded image.
-- **`extractMessage()`:** Extracts and displays the hidden message from the image.
-
-## Contributing
-
-Feel free to submit pull requests or open issues if you have suggestions or find bugs.
+- `encryptMessage(message, key)`: Encrypts the message using AES with the provided key.
+- `decryptMessage(encryptedMessage, key)`: Decrypts the extracted message using the provided key, with error handling for invalid keys.
+- `hideMessageInImage(imageData, message)`: Hides the encrypted message in the image by modifying the least significant bits of pixel data.
+- `extractMessageFromImage(imageData)`: Extracts the hidden encrypted message from the image data.
+- `handleFileSelect(event)`: Handles image file selection and displays the image on both canvases.
+- `hideMessage()`: Encrypts the user-provided message and hides it in the uploaded image.
+- `extractMessage()`: Extracts the encrypted message, decrypts it, and displays the result or an error.
 
 ## Acknowledgments
 
-- Inspired by various steganography techniques and tutorials.
+- Inspired by steganography techniques and encryption tutorials.
+- Utilizes `crypto-js` for robust AES encryption.
+- Designed with modern web aesthetics, including glassmorphism and gradient effects.
+
+## Notes
+
+- **Security**: AES encryption relies on a strong, secret key. Ensure the encryption key is robust and not shared publicly.
+- **Message Length**: Encrypted messages are longer than plain text. Use images with sufficient pixels (at least `8 * (encrypted_message_length + 1)` pixels) to store the message.
+- **Testing**: Test with small images and short messages to verify functionality before using larger files.
+- **Enhancements**: Consider adding features like a "Save Image" button or loading indicators for improved user experience.
